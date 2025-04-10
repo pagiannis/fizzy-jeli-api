@@ -19,7 +19,7 @@ const ProductSchema = new mongoose.Schema({
     },
     category: {
         type: String,
-        enum: ['jelly', 'fizzy-drink', 'limited-edition'],
+        enum: ['jellies', 'fizzy-drink', 'limited-edition'],
         required: true,
     },
     stock: {

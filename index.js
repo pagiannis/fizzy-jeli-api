@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
+const baseRoutes = require('./routes/base');
+const productRoutes = require('./routes/products');
 
 const app = express();
 
@@ -9,14 +11,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Import routes
-const productRoutes = require('./routes/products');
 app.use('/api/products', productRoutes);
-
-// Basic route
-app.get('/', (req,res) => {
-    res.send('Fizzy Jeli API is running! 🎉');
-});
+app.use('/', baseRoutes);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)

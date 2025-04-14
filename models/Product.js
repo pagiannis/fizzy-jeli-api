@@ -17,6 +17,10 @@ const ProductSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    secondaryImage: {
+        type: String,
+        required: true,
+    },
     category: {
         type: String,
         enum: ['jellies', 'fizzy-drink', 'limited-edition'],

@@ -4,6 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 const baseRoutes = require('./routes/base');
 const productRoutes = require('./routes/products');
+const contactFormRoutes = require('./routes/contactForm');
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cors({
 app.use(express.json());
 
 app.use('/api/products', productRoutes);
+app.use('/api/contactform', contactFormRoutes);
 app.use('/', baseRoutes);
 
 // Connect to MongoDB

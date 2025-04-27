@@ -11,3 +11,5 @@ const validateContactForm = (req, res, next) => {
 
     next();
 };
+
+module.exports = validateContactForm;

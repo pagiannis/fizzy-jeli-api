@@ -4,11 +4,6 @@ const postContactForm = async (req, res) => {
     try {
         const { name, email, subject, message } = req.body;
     
-        // Validate required fields (optional - extra layer beyond Zod)
-        if (!name || !email || !subject || !message) {
-          return res.status(400).json({ error: 'All fields are required' });
-        }
-    
         // Create and save to MongoDB
         const newContactForm = new ContactForm({ name, email, subject, message });
         await newContactForm.save();

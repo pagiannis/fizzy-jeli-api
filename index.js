@@ -1,11 +1,11 @@
-const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 const baseRoutes = require('./routes/base');
 const productRoutes = require('./routes/products');
 const contactFormRoutes = require('./routes/contactForm');
-
+const userRoutes = require('./routes/users');
+const express = require('express');
 const app = express();
 
 // Middleware
@@ -20,6 +20,7 @@ app.use(express.json());
 
 app.use('/api/products', productRoutes);
 app.use('/api/contactform', contactFormRoutes);
+app.use('/api/users', userRoutes);
 app.use('/', baseRoutes);
 
 // Connect to MongoDB

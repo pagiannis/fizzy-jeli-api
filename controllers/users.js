@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const User = require('../models/User');
 
 const getAllUsers = async (req, res) => {
@@ -9,17 +10,10 @@ const postUser = async (req, res) => {
     let user = await User.findOne({ email: req.body.email });
     if (user) return res.status(400).send('User already registered.');
 
-    user = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
-        favourites: req.body.favourites,
-        bag: req.body.bag
-    });
-
+    user = new User(_.pick(req.body, ['username', 'email', 'password', 'favourites', 'bag']));
     await user.save();
     
-    res.send(user);
+    res.send(_.pick(user, ['_id','username', 'email', 'favourites', 'bag']));
 };
 
 module.exports = {

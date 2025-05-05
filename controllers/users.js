@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const User = require('../models/User');
@@ -18,7 +19,8 @@ const postUser = async (req, res) => {
     
     await user.save();
     
-    res.send(_.pick(user, ['_id','username', 'email', 'favourites', 'bag']));
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+    res.header('x-auth-token', token).send(_.pick(user, ['_id','username', 'email', 'favourites', 'bag']));
 };
 
 module.exports = {

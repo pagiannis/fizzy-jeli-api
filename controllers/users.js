@@ -7,6 +7,11 @@ const getAllUsers = async (req, res) => {
     res.send(users);
 };
 
+const getCurrentUser = async (req, res) => {
+    const user = await User.findById(req.user._id).select('-password');
+    res.send(user);
+};
+
 const postUser = async (req, res) => {
     let user = await User.findOne({ email: req.body.email });
     if (user) return res.status(400).send('User already registered.');
@@ -24,5 +29,6 @@ const postUser = async (req, res) => {
 
 module.exports = {
     getAllUsers,
+    getCurrentUser,
     postUser
 }

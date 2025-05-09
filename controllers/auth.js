@@ -13,7 +13,14 @@ const postAuth = async (req, res) => {
     if (!validPassword) return res.status(400).send('Invalid email or password.');
 
     const token = user.generateAuthToken();
-    res.send(token);
+    res.send({
+        token,
+        user: {
+            email: user.email,
+            username: user.username,
+            _id: user._id
+        }
+    });
 };
 
 function validate(req){

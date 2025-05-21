@@ -21,6 +21,16 @@ const UserSchema = new mongoose.Schema({
         maxlength: 1024,
         required: true,
     },
+    isVerified: {
+        type: Boolean,
+        default: false,
+    },
+    verificationToken: {
+        type: String,
+    },
+    verificationTokenExpiry: {
+        type: Date,
+    },
     favourites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
     bag: [{ 
         product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product'},

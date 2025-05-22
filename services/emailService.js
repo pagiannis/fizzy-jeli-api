@@ -17,11 +17,11 @@ const sendVerificationEmail = async (email, token) => {
         subject: 'Verify Your Email',
         html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                <h2 style="color: #3B82F6;">Fizzy Jeli Email Verification</h2>
+                <h2 style="color:rgb(214, 49, 170);">Fizzy Jeli Email Verification</h2>
                 <p>Hello!</p>
                 <p>Please verify your email by clicking below:</p>
                 <a href="${verificationLink}" 
-                    style="background: #3B82F6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                    style="background: rgb(214, 49, 170); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
                     Verify Email
                 </a>
                 <p style="font-size: 12px; color: #6B7280;">
@@ -32,9 +32,7 @@ const sendVerificationEmail = async (email, token) => {
 
     try {
         await transporter.sendMail(mailOptions);
-        console.log(`Verification email sent to ${email}`);
     } catch (error){
-        console.error('Failed to send verification email:', error);
         throw new Error('Failed to send verification email');
     }
 };

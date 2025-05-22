@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const _ = require('lodash');
 const User = require('../models/User');
+const { sendVerificationEmail } = require('../services/emailService');
 
 const getAllUsers = async (req, res) => {
     const users = await User.find().sort({ username: 1 });
@@ -27,6 +28,10 @@ const postUser = async (req, res) => {
     user.password = await bcrypt.hash(user.password, salt);
     
     await user.save();
+
+    // Send verification email
+    sendVerificationEmail(user.email, user.verificationToken)
+        .catch(err => console.error('Background email error:', err));
     
     res.send(_.pick(user, ['_id','username', 'email']));
 };

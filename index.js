@@ -6,6 +6,7 @@ const productRoutes = require('./routes/products');
 const contactFormRoutes = require('./routes/contactForm');
 const userRoutes = require('./routes/users');
 const authRoutes = require('./routes/auth');
+const verifyEmailRoutes = require('./routes/verifyEmail');
 const express = require('express');
 const app = express();
 
@@ -23,6 +24,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/contactform', contactFormRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/verify-email', verifyEmailRoutes);
 app.use('/', baseRoutes);
 
 // Connect to MongoDB

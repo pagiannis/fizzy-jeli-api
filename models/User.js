@@ -25,12 +25,6 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    verificationToken: {
-        type: String,
-    },
-    verificationTokenExpiry: {
-        type: Date,
-    },
     favourites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
     bag: [{ 
         product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product'},

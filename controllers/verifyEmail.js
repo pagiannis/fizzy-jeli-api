@@ -1,23 +1,30 @@
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
 
 const updateUserVerificationStatus = async (req, res) => {
-    const { token, email } = req.body;
+    const token = req.query.token;
 
-    const user = await User.findOne({
-        email,
-        verificationToken: token,
-        verificationTokenExpiry: { $gt: Date.now() },   
-    });
+    try {
+        const decoded = jwt.verify(token, process.env.EMAIL_VERIFICATION_SECRET);
+        const user = await User.findById(decoded.userId);
 
-    if (!user) return res.status(400).send('Invalid or expired token.');
+        if(!user){
+            return res.redirect(`${process.env.FRONTEND_URL}/?status=error`);
+        }
 
-    user.isVerified = true;
-    user.verificationToken = undefined;
-    user.verificationTokenExpiry = undefined;
-    await user.save();
+        if(user.isVerified){
+            return res.redirect(`${process.env.FRONTEND_URL}/?status=already`);
+        }
 
-    res.send({ user });
-}
+        user.isVerified = true;
+        await user.save();
+
+        return res.redirect(`${process.env.FRONTEND_URL}/?status=success`);
+    } 
+    catch (error) {
+        return res.redirect(`${process.env.FRONTEND_URL}/?status=error`);
+    }
+};
 
 module.exports = {
     updateUserVerificationStatus

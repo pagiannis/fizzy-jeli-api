@@ -9,7 +9,7 @@ const transporter = nodeMailer.createTransport({
 });
 
 const sendVerificationEmail = async (email, token) => {
-    const verificationLink = `${process.env.FRONTEND_URL}/?token=${token}&email=${email}`;
+    const verificationLink = `${process.env.BACKEND_URL}/api/verify-email/?token=${token}`;
 
     const mailOptions = {
         from: `"Fizzy Jeli" <${process.env.EMAIL_USER}>`,

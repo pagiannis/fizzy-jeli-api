@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
 const _ = require('lodash');
 const User = require('../models/User');
 const { sendVerificationEmail } = require('../services/emailService');
@@ -20,8 +20,6 @@ const postUser = async (req, res) => {
 
     user = new User({
         ..._.pick(req.body, ['username', 'email', 'password']),
-        verificationToken: crypto.randomBytes(32).toString('hex'),
-        verificationTokenExpiry: new Date(Date.now() + 24 * 60 * 60 * 1000) // 24h expiry
     });
 
     const salt = await bcrypt.genSalt(10);
@@ -29,8 +27,15 @@ const postUser = async (req, res) => {
     
     await user.save();
 
+    // Create a JWT with short expiry (e.g., 1h)
+    const token = jwt.sign(
+        { userId: user._id, email: user.email },
+        process.env.EMAIL_VERIFICATION_SECRET,
+        { expiresIn: '1h' }
+    );
+
     // Send verification email
-    sendVerificationEmail(user.email, user.verificationToken)
+    sendVerificationEmail(user.email, token)
         .catch(err => console.error('Background email error:', err));
     
     res.send(_.pick(user, ['_id','username', 'email']));

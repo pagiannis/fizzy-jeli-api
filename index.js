@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
+const cron = require('node-cron');
+const deleteStaleUnverifiedUsers = require('./jobs/cleanupUnverifiedUsers');
 const baseRoutes = require('./routes/base');
 const productRoutes = require('./routes/products');
 const contactFormRoutes = require('./routes/contactForm');
@@ -28,6 +30,12 @@ app.use('/api/auth', authRoutes);
 app.use('/api/verify-email', verifyEmailRoutes);
 app.use('/api/verify-email-resend', verifyEmailResendRoutes);
 app.use('/', baseRoutes);
+
+// Run every day at midnight
+cron.schedule('0 0 * * *', () => {
+    console.log('[CRON] Running daily cleanup job...');
+    deleteStaleUnverifiedUsers();
+});
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)

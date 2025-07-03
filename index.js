@@ -10,6 +10,7 @@ const userRoutes = require('./routes/users');
 const authRoutes = require('./routes/auth');
 const verifyEmailRoutes = require('./routes/verifyEmail');
 const verifyEmailResendRoutes = require('./routes/verifyEmailResend');
+const forgotPasswordRoutes = require('./routes/forgotPassword');
 const express = require('express');
 const app = express();
 
@@ -29,6 +30,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/verify-email', verifyEmailRoutes);
 app.use('/api/verify-email-resend', verifyEmailResendRoutes);
+app.use('/api/forgot-password', forgotPasswordRoutes);
 app.use('/', baseRoutes);
 
 // Run every day at midnight

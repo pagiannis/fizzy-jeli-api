@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const User = require('../models/User');
 const { sendResetPasswordEmail } = require('../services/emailService');
+const bcrypt = require('bcrypt');
 
 const sendResetCode = async (req, res) => {
     const { email } = req.body;
@@ -36,7 +37,8 @@ const resetPassword = async (req, res) => {
         return res.status(400).json({ message: 'Invalid or expired token.' });
     }
 
-    user.password = newPassword;
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(newPassword, salt);
     user.resetPasswordToken = undefined;
     user.resetPasswordExpires = undefined;
     await user.save();

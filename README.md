@@ -91,6 +91,8 @@ BACKEND_URL=http://localhost:3000
 
 For MONGO_URI, you can use a free MongoDB cluster from MongoDB Atlas.
 
+You need to create your own email data and add an email app password.
+
 Choose a JWT_SECRET.
 
 Define the port your backend server will run on (default: 3000).
